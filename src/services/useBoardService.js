@@ -13,12 +13,16 @@ export const useBoardService = () => {
             name = queryUrl.replace(/https:\/\/github.com\//i, "");
         }
 
-        // const url = `${_apiBase}/${name}/issues?state=${"all"}&per_page=30`;
+        // Todo - opened
+        // inProgress - opened + assigned
+        // Done - closed
 
         const allIssues = await Promise.all([
-            request(`${_apiBase}/${name}/issues?state=all&per_page=30`),
-            request(`${_apiBase}/${name}/issues?state=open&per_page=30`),
-            request(`${_apiBase}/${name}/issues?state=closed&per_page=30`),
+            request(`${_apiBase}/${name}/issues?state=open&per_page=10`),
+            request(
+                `${_apiBase}/${name}/issues?state=open&assignee=*&per_page=15`
+            ),
+            request(`${_apiBase}/${name}/issues?state=closed&per_page=25`),
         ]);
 
         console.log(allIssues);
@@ -38,6 +42,7 @@ export const useBoardService = () => {
             owner: issue.user.html_url,
             comments: issue.comments,
             state: issue.state,
+            assignees: issue.assignees,
         };
     };
 
