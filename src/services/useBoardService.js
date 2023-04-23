@@ -1,5 +1,6 @@
 import React from "react";
 import { useHttp } from "../hooks/http.hook";
+import { getRepository } from "../helpers/helpers";
 
 export const useBoardService = () => {
     const _apiBase = "https://api.github.com/repos";
@@ -7,30 +8,35 @@ export const useBoardService = () => {
     const { loading, request, error, clearError } = useHttp();
 
     const getIssues = async (queryUrl) => {
-        let name = "";
+        const { full_name, owner, repositoryName } = getRepository(queryUrl);
 
-        if (queryUrl.includes("https://github.com/")) {
-            name = queryUrl.replace(/https:\/\/github.com\//i, "");
-        }
+        const data = await request(`${_apiBase}/${full_name}`);
 
-        // Todo - opened
-        // inProgress - opened + assigned
-        // Done - closed
+        const allIssues = await request(
+            `${_apiBase}/${full_name}/issues?state=open&per_page=10`
+        );
+        const openIssues = await request(
+            `${_apiBase}/${full_name}/issues?state=open&assignee=*&per_page=15`
+        );
+        const closedIssues = await request(
+            `${_apiBase}/${full_name}/issues?state=closed&per_page=25`
+        );
 
-        const allIssues = await Promise.all([
-            request(`${_apiBase}/${name}/issues?state=open&per_page=10`),
-            request(
-                `${_apiBase}/${name}/issues?state=open&assignee=*&per_page=15`
-            ),
-            request(`${_apiBase}/${name}/issues?state=closed&per_page=25`),
-        ]);
-
-        console.log(allIssues);
+        console.log(data);
 
         return {
-            allIssues: allIssues[0].map(_transformIssue),
-            openIssues: allIssues[1].map(_transformIssue),
-            closedIssues: allIssues[2].map(_transformIssue),
+            info: {
+                stars: data.stargazers_count,
+                full_name: data.full_name,
+                owner,
+                repositoryName,
+                full_name_url: data.html_url,
+            },
+            issues: {
+                allIssues: allIssues.map(_transformIssue),
+                openIssues: openIssues.map(_transformIssue),
+                closedIssues: closedIssues.map(_transformIssue),
+            },
         };
     };
 

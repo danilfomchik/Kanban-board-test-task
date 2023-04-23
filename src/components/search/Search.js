@@ -1,28 +1,37 @@
 import React from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as yup from "yup";
 
 import "./search.scss";
 
-const Search = ({ query, setQuery, onRequest }) => {
-    // const { loading, request, error, clearError } = useHttp();
-
-    // const onRequest = async () => {
-    //     const result = await request(
-    //         "https://api.github.com/repos/facebook/react/issues"
-    //     );
-
-    //     setAllIssues(result);
-    // };
-
+const Search = ({ query, setQuery, handleRequest }) => {
     return (
         <div className="search">
-            <input
-                type="text"
-                id="search"
-                placeholder="Enter repo URL"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-            />
-            <button onClick={onRequest}>Load issues</button>
+            <Formik
+                initialValues={{
+                    search: "https://github.com/facebook/react",
+                }}
+                validationSchema={yup.object({
+                    search: yup.mixed().required("Required field!"),
+                })}
+                onSubmit={(values) => {
+                    handleRequest(values.search);
+                }}
+            >
+                <Form>
+                    <Field
+                        id="search"
+                        name="search"
+                        type="text"
+                        placeholder="Enter repo URL"
+                    />
+                    <ErrorMessage name="search">
+                        {(msg) => <div className="error">{msg}</div>}
+                    </ErrorMessage>
+
+                    <button type="submit">Load issues</button>
+                </Form>
+            </Formik>
         </div>
     );
 };
