@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import { useDispatch } from "react-redux";
 
 // import { useHttp } from "./hooks/http.hook";
@@ -6,6 +6,7 @@ import { useBoardService } from "./services/useBoardService";
 import { getRepository } from "./helpers/helpers";
 // import { handleSearch, fetchIssues } from "./store/boardSlice";
 
+import { IssuesProvider } from "./context/IssuesProvider";
 import Search from "./components/search/Search";
 import Board from "./components/board/Board";
 
@@ -13,9 +14,11 @@ import { Container, Row, Col } from "react-bootstrap";
 import "./App.css";
 
 const App = () => {
-    // https://github.com/facebook/react
-    // const [query, setQuery] = useState("https://github.com/facebook/react");
-    const [issues, setIssues] = useState(null);
+    const [issues, setIssues] = useState({
+        allIssues: [],
+        openIssues: [],
+        closedIssues: [],
+    });
     const [info, setInfo] = useState([]);
 
     const { loading, error, clearError, getIssues } = useBoardService();
@@ -28,19 +31,27 @@ const App = () => {
         setIssues(issues);
     };
 
+    useEffect(() => {
+        console.log(issues.length);
+    });
+
     return (
         <Container>
             <Search handleRequest={onRequest} />
 
-            {!loading && !!issues && (
-                <div className="general-info">
-                    <a href={info.full_name_url} target="_blanck">
-                        {info.owner} &gt; {info.repositoryName}{" "}
-                    </a>
-                    {Math.round(info.stars / 1000)}k stars
-                </div>
-            )}
-            <Board />
+            {/* переделать */}
+            {/* {!loading && issues.length > 0 && ( */}
+            <div className="general-info">
+                <a href={info.full_name_url} target="_blanck">
+                    {info.owner} &gt; {info.repositoryName}{" "}
+                </a>
+                {Math.round(info.stars / 1000)}k stars
+            </div>
+            {/* )} */}
+            {/* переделать */}
+            <IssuesProvider value={issues}>
+                <Board />
+            </IssuesProvider>
         </Container>
     );
 };

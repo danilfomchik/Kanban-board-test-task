@@ -22,7 +22,7 @@ export const useBoardService = () => {
             `${_apiBase}/${full_name}/issues?state=closed&per_page=25`
         );
 
-        console.log(data);
+        // console.log(data);
 
         return {
             info: {
@@ -45,7 +45,8 @@ export const useBoardService = () => {
             repository_url: issue.repository_url,
             id: issue.id,
             title: issue.title,
-            owner: issue.user.html_url,
+            user_url: issue.user.html_url,
+            user_name: issue.user.login,
             comments: issue.comments,
             state: issue.state,
             assignees: issue.assignees,
