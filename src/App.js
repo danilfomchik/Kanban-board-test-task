@@ -21,7 +21,7 @@ const App = () => {
     });
 
     const [columns, setColumns] = useState([
-        { id: 0, title: "ToDo", state: "open", issues: [] },
+        { id: 0, title: "ToDo", state: "all", issues: [] },
         { id: 1, title: "In Progress", state: "open", issues: [] },
         { id: 2, title: "Done", state: "closed", issues: [] },
     ]);

@@ -60,9 +60,21 @@ const Board = () => {
         setColumns((prevCols) =>
             prevCols.map((column, i) => {
                 if (column.id === sourceCol.id) {
-                    return { ...column, issues: sourceCol.issues };
+                    return {
+                        ...column,
+                        issues: changeIssuesState(
+                            sourceCol.issues,
+                            sourceCol.state
+                        ),
+                    };
                 } else if (column.id === destinationCol.id) {
-                    return { ...column, issues: destinationCol.issues };
+                    return {
+                        ...column,
+                        issues: changeIssuesState(
+                            destinationCol.issues,
+                            destinationCol.state
+                        ),
+                    };
                 } else {
                     return column;
                 }

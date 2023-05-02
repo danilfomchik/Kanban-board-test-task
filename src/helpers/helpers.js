@@ -20,5 +20,45 @@ export const reorderColumnList = (sourceCol, startIndex, endIndex) => {
 };
 
 export const changeIssuesState = (issues, state) => {
-    return issues.map((issue) => (issue.state = state));
+    const defaultAssigne = {
+        id: 1111111,
+        login: "userLogin",
+    };
+
+    let result = [];
+
+    switch (state) {
+        case "all":
+            result = issues.map((issue) => {
+                return {
+                    ...issue,
+                    state: "open",
+                    assignees: [],
+                };
+            });
+            break;
+        case "open":
+            result = issues.map((issue) => {
+                return {
+                    ...issue,
+                    state,
+                    assignees: [defaultAssigne],
+                };
+            });
+            break;
+        case "closed":
+            result = issues.map((issue) => {
+                return {
+                    ...issue,
+                    state,
+                    assignees: [],
+                };
+            });
+            break;
+
+        default:
+            break;
+    }
+
+    return result;
 };
