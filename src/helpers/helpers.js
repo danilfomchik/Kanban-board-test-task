@@ -11,3 +11,14 @@ export const getRepository = (url) => {
         repositoryName: info[1],
     };
 };
+
+export const reorderColumnList = (sourceCol, startIndex, endIndex) => {
+    const [removed] = sourceCol.splice(startIndex, 1);
+    sourceCol.splice(endIndex, 0, removed);
+
+    return sourceCol;
+};
+
+export const changeIssuesState = (issues, state) => {
+    return issues.map((issue) => (issue.state = state));
+};

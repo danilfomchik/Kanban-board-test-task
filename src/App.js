@@ -19,21 +19,34 @@ const App = () => {
         openIssues: [],
         closedIssues: [],
     });
+
+    const [columns, setColumns] = useState([
+        { id: 0, title: "ToDo", state: "open", issues: [] },
+        { id: 1, title: "In Progress", state: "open", issues: [] },
+        { id: 2, title: "Done", state: "closed", issues: [] },
+    ]);
+
     const [info, setInfo] = useState([]);
 
     const { loading, error, clearError, getIssues } = useBoardService();
 
     const onRequest = async (query) => {
-        // при вводе неправильного юрл выводить ошибку
+        clearError();
+
         const { info, issues } = await getIssues(query);
+
+        setColumns(
+            columns.map((column, i) => {
+                return {
+                    ...column,
+                    issues: issues[i],
+                };
+            })
+        );
 
         setInfo(info);
         setIssues(issues);
     };
-
-    useEffect(() => {
-        console.log(issues.length);
-    });
 
     return (
         <Container>
@@ -49,7 +62,14 @@ const App = () => {
             </div>
             {/* )} */}
             {/* переделать */}
-            <IssuesProvider value={issues}>
+            <IssuesProvider
+                // value={{ issues, status: { loading, error, clearError } }}
+                value={{
+                    columns,
+                    setColumns,
+                    status: { loading, error, clearError },
+                }}
+            >
                 <Board />
             </IssuesProvider>
         </Container>

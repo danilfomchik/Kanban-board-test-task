@@ -13,16 +13,14 @@ export const useBoardService = () => {
         const data = await request(`${_apiBase}/${full_name}`);
 
         const allIssues = await request(
-            `${_apiBase}/${full_name}/issues?state=open&per_page=10`
+            `${_apiBase}/${full_name}/issues?state=open&assignee=none&per_page=3`
         );
         const openIssues = await request(
-            `${_apiBase}/${full_name}/issues?state=open&assignee=*&per_page=15`
+            `${_apiBase}/${full_name}/issues?state=open&assignee=*&per_page=4`
         );
         const closedIssues = await request(
-            `${_apiBase}/${full_name}/issues?state=closed&per_page=25`
+            `${_apiBase}/${full_name}/issues?state=closed&per_page=5`
         );
-
-        // console.log(data);
 
         return {
             info: {
@@ -32,11 +30,16 @@ export const useBoardService = () => {
                 repositoryName,
                 full_name_url: data.html_url,
             },
-            issues: {
-                allIssues: allIssues.map(_transformIssue),
-                openIssues: openIssues.map(_transformIssue),
-                closedIssues: closedIssues.map(_transformIssue),
-            },
+            issues: [
+                allIssues.map(_transformIssue),
+                openIssues.map(_transformIssue),
+                closedIssues.map(_transformIssue),
+            ],
+            // issues: {
+            //     allIssues: allIssues.map(_transformIssue),
+            //     openIssues: openIssues.map(_transformIssue),
+            //     closedIssues: closedIssues.map(_transformIssue),
+            // },
         };
     };
 
