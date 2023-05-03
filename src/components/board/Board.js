@@ -55,26 +55,18 @@ const Board = () => {
 
         // If the user moves from one column to another
         const [removed] = sourceCol.issues.splice(source.index, 1);
-        destinationCol.issues.splice(destination.index, 0, removed);
+        destinationCol.issues.splice(
+            destination.index,
+            0,
+            changeIssuesState(removed, destinationCol.state)
+        );
 
         setColumns((prevCols) =>
             prevCols.map((column, i) => {
                 if (column.id === sourceCol.id) {
-                    return {
-                        ...column,
-                        issues: changeIssuesState(
-                            sourceCol.issues,
-                            sourceCol.state
-                        ),
-                    };
+                    return { ...column, issues: sourceCol.issues };
                 } else if (column.id === destinationCol.id) {
-                    return {
-                        ...column,
-                        issues: changeIssuesState(
-                            destinationCol.issues,
-                            destinationCol.state
-                        ),
-                    };
+                    return { ...column, issues: destinationCol.issues };
                 } else {
                     return column;
                 }
