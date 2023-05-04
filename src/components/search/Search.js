@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 
@@ -18,18 +19,30 @@ const Search = ({ query, setQuery, handleRequest }) => {
                     handleRequest(values.search);
                 }}
             >
-                <Form>
-                    <Field
-                        id="search"
-                        name="search"
-                        type="text"
-                        placeholder="Enter repo URL"
-                    />
-                    <ErrorMessage name="search">
-                        {(msg) => <div className="error">{msg}</div>}
-                    </ErrorMessage>
+                <Form className="search-form">
+                    <div className="search-form__group">
+                        <Field
+                            id="search"
+                            name="search"
+                            type="text"
+                            placeholder="Enter repo URL"
+                            className="search-form__input"
+                        />
 
-                    <button type="submit">Load issues</button>
+                        <Button
+                            className="search-form__btn"
+                            type="submit"
+                            variant="light"
+                        >
+                            Load issues
+                        </Button>
+                    </div>
+
+                    <ErrorMessage name="search">
+                        {(msg) => (
+                            <div className="search-form__error">{msg}</div>
+                        )}
+                    </ErrorMessage>
                 </Form>
             </Formik>
         </div>

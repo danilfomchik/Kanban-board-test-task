@@ -1,0 +1,31 @@
+.search-form{
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    &__group{
+        display: flex;
+        justify-content: space-between;
+        padding: 20px 0px 10px;
+    }
+
+    &__input{
+        border-radius: 6px;
+        width: 100%;
+        padding: 8px;
+    }
+
+    &__btn{
+        border: 1px solid #000000;
+        white-space: nowrap;
+        margin: 0px 0px 0px 20px;
+    }
+
+    &__error{
+        color: red;
+        font-weight: 700;
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,39 @@
+.issues-column{
+    .title{
+        text-align: center;
+        padding: 0px 0px 15px;
+        margin-bottom: 0px;
+    }
+
+    .issue-cards{
+        padding: 10px;
+        background-color: #cbcbcb;
+        margin: 10px;
+        height: 200vh;
+        overflow: auto;
+        
+        .issue-card:not(:last-child){
+            margin: 0px 0px 10px;
+        }
+
+        &::-webkit-scrollbar {
+            width: 5px;
+        }
+          
+        /* Track */
+        &::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+           
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+            background: #888; 
+        }
+          
+        /* Handle on hover */
+        &::-webkit-scrollbar-thumb:hover {
+            background: #555; 
+        }
+    }
+
+}

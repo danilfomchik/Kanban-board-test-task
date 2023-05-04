@@ -11,14 +11,13 @@ import { useBoardService } from "../../services/useBoardService";
 
 import IssuesColumn from "../issuesColumn/IssuesColumn";
 
+import "./board.scss";
+
 const Board = () => {
     const { columns, setColumns } = useIssuesContext();
 
     const onDragEnd = (result) => {
         const { destination, source } = result;
-
-        console.log("source---->", source);
-        console.log("destination---->", destination);
 
         // If user tries to drop in an unknown destination
         if (!destination) return;
@@ -76,7 +75,7 @@ const Board = () => {
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            <Row>
+            <Row className="board">
                 {columns.map((column) => {
                     return (
                         <Col key={column.id}>

@@ -53,6 +53,8 @@ export const useBoardService = () => {
             comments: issue.comments,
             state: issue.state,
             assignees: issue.assignees,
+            created_at: issue.created_at,
+            number: issue.number,
         };
     };
 

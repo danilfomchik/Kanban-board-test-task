@@ -1,0 +1,22 @@
+.repo-info{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    a{
+        text-decoration: none;
+        // padding: 0px 10px 0px 0px;
+    }
+
+    &__path{
+        padding: 0px 20px 0px 0px;
+    }
+
+    .delimiter{
+        padding: 0px 7px;
+    }
+
+    .fa-star{
+        color: orange;
+    }
+}

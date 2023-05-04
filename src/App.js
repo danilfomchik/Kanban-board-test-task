@@ -11,7 +11,7 @@ import Search from "./components/search/Search";
 import Board from "./components/board/Board";
 
 import { Container, Row, Col } from "react-bootstrap";
-import "./App.css";
+import "./app.scss";
 
 const App = () => {
     const [issues, setIssues] = useState({
@@ -52,19 +52,30 @@ const App = () => {
         <Container>
             <Search handleRequest={onRequest} />
 
-            {/* переделать */}
-            {/* {!loading && issues.length > 0 && ( */}
-            <div className="general-info">
-                <a href={info.full_name_url} target="_blanck">
-                    {info.owner} &gt; {info.repositoryName}{" "}
-                </a>
-                {Math.round(info.stars / 1000)}k stars
-            </div>
-            {/* )} */}
-            {/* переделать */}
+            {!loading && !error && issues.length > 0 && (
+                <div className="repo-info">
+                    <div className="repo-info__path">
+                        <a
+                            href={`https://github.com/${info.owner}`}
+                            target="_blanck"
+                        >
+                            <span>{info.owner}</span>
+                        </a>
+                        <span className="delimiter">&gt;</span>
+                        <a
+                            href={`https://github.com/${info.owner}/${info.repositoryName}`}
+                            target="_blanck"
+                        >
+                            <span>{info.repositoryName}</span>
+                        </a>
+                    </div>
+                    <i className="fas fa-star"></i>
+                    <span>{Math.round(info.stars / 1000)}k stars</span>
+                </div>
+            )}
             <IssuesProvider
-                // value={{ issues, status: { loading, error, clearError } }}
                 value={{
+                    info,
                     columns,
                     setColumns,
                     status: { loading, error, clearError },

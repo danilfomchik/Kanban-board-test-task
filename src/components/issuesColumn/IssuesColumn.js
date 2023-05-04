@@ -3,13 +3,17 @@ import { Card } from "react-bootstrap";
 
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
+import { getOpenDate } from "../../helpers/helpers";
 import { useIssuesContext } from "../../context/IssuesProvider";
 import { useBoardService } from "../../services/useBoardService";
+
+import "./issue-column.scss";
 
 const IssuesColumn = ({ title, data, column, setColumns }) => {
     // console.log(column.id);
 
     const {
+        info,
         status: { loading, error, clearError },
     } = useIssuesContext();
 
@@ -17,18 +21,23 @@ const IssuesColumn = ({ title, data, column, setColumns }) => {
     const loadingMessage = loading && <h1>Loading...</h1>;
 
     return (
-        <div className="issues-column m-2">
-            <div className="title">{title}</div>
+        <div className="issues-column">
+            <h4 className="title">{title}</h4>
 
-            {!error && !loading && (
-                <Droppable droppableId={`${column.id}`}>
-                    {(droppableProvided, droppableSnapshot) => (
-                        <div
-                            className="issue-card"
-                            ref={droppableProvided.innerRef}
-                            {...droppableProvided.droppableProps}
-                        >
-                            {data.map((issue, index) => (
+            {/* {!error && !loading && ( */}
+            <Droppable droppableId={`${column.id}`}>
+                {(droppableProvided, droppableSnapshot) => (
+                    <div
+                        className="issue-cards"
+                        ref={droppableProvided.innerRef}
+                        {...droppableProvided.droppableProps}
+                    >
+                        {errorMessage}
+                        {loadingMessage}
+
+                        {!error &&
+                            !loading &&
+                            data.map((issue, index) => (
                                 <Draggable
                                     key={issue.id}
                                     draggableId={`${issue.id}`}
@@ -46,6 +55,12 @@ const IssuesColumn = ({ title, data, column, setColumns }) => {
                                                     <Card.Title>
                                                         {issue.title}
                                                     </Card.Title>
+                                                    <Card.Text>
+                                                        #{issue.number}
+                                                        {getOpenDate(
+                                                            issue.created_at
+                                                        )}
+                                                    </Card.Text>
                                                     <Card.Text className="mb-2">
                                                         <a
                                                             href={
@@ -64,13 +79,10 @@ const IssuesColumn = ({ title, data, column, setColumns }) => {
                                     )}
                                 </Draggable>
                             ))}
-                        </div>
-                    )}
-                </Droppable>
-            )}
-
-            {errorMessage}
-            {loadingMessage}
+                    </div>
+                )}
+            </Droppable>
+            {/* )} */}
         </div>
     );
 };
