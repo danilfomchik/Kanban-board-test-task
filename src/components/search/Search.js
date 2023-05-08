@@ -10,7 +10,8 @@ const Search = memo(({ query, setQuery, handleRequest }) => {
         <div className="search">
             <Formik
                 initialValues={{
-                    search: "https://github.com/facebook/react",
+                    search: "",
+                    // search: "https://github.com/facebook/react",
                 }}
                 validationSchema={yup.object({
                     search: yup.mixed().required("Required field!"),
