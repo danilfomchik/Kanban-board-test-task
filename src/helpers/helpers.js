@@ -59,6 +59,7 @@ export const changeIssuesState = (issue, state) => {
 
 export const getOpenDate = (time) => {
     let result = "";
+
     const endTime = Date.parse(new Date()) - Date.parse(time);
     const remainingDays = Math.floor(endTime / (1000 * 60 * 60 * 24));
     const remainingHours = Math.floor((endTime / (1000 * 60 * 60)) % 24);

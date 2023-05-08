@@ -1,24 +1,19 @@
-import { useEffect, useState, createContext } from "react";
+import { useEffect, useState, createContext, useCallback } from "react";
 import { useDispatch } from "react-redux";
+import { observer } from "mobx-react-lite";
 
-// import { useHttp } from "./hooks/http.hook";
+// import useStore from "./hooks/useStore";
 import { useBoardService } from "./services/useBoardService";
-import { getRepository } from "./helpers/helpers";
-// import { handleSearch, fetchIssues } from "./store/boardSlice";
 
 import { IssuesProvider } from "./context/IssuesProvider";
 import Search from "./components/search/Search";
 import Board from "./components/board/Board";
 
-import { Container, Row, Col } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import "./app.scss";
 
 const App = () => {
-    const [issues, setIssues] = useState({
-        allIssues: [],
-        openIssues: [],
-        closedIssues: [],
-    });
+    // const { cols } = useStore();
 
     const [columns, setColumns] = useState([
         { id: 0, title: "ToDo", state: "all", issues: [] },
@@ -27,10 +22,9 @@ const App = () => {
     ]);
 
     const [info, setInfo] = useState([]);
-
     const { loading, error, clearError, getIssues } = useBoardService();
 
-    const onRequest = async (query) => {
+    const onRequest = useCallback(async (query) => {
         clearError();
 
         const { info, issues } = await getIssues(query);
@@ -45,14 +39,13 @@ const App = () => {
         );
 
         setInfo(info);
-        setIssues(issues);
-    };
+    });
 
     return (
         <Container>
             <Search handleRequest={onRequest} />
 
-            {!loading && !error && issues.length > 0 && (
+            {!loading && !error && info.full_name && (
                 <div className="repo-info">
                     <div className="repo-info__path">
                         <a
@@ -88,3 +81,4 @@ const App = () => {
 };
 
 export default App;
+// export default observer(App);

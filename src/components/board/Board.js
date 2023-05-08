@@ -83,7 +83,6 @@ const Board = () => {
                                 title={column.title}
                                 data={column.issues}
                                 column={column}
-                                setColumns={setColumns}
                             />
                         </Col>
                     );

@@ -1,11 +1,11 @@
-import React from "react";
+import React, { memo } from "react";
 import { Button } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 
 import "./search.scss";
 
-const Search = ({ query, setQuery, handleRequest }) => {
+const Search = memo(({ query, setQuery, handleRequest }) => {
     return (
         <div className="search">
             <Formik
@@ -47,6 +47,6 @@ const Search = ({ query, setQuery, handleRequest }) => {
             </Formik>
         </div>
     );
-};
+});
 
 export default Search;

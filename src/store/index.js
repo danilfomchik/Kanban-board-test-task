@@ -1,8 +1,9 @@
-import { configureStore } from "@reduxjs/toolkit";
-import boardReducer from "./boardSlice";
+import { types } from "mobx-state-tree";
 
-export default configureStore({
-    reducer: {
-        issues: boardReducer,
-    },
+import BoardsStore from "./boards";
+
+const RootStore = types.model("RootStore", {
+    cols: types.optional(BoardsStore, {}),
 });
+
+export default RootStore;

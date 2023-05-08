@@ -9,12 +9,9 @@ import { useBoardService } from "../../services/useBoardService";
 
 import "./issue-column.scss";
 
-const IssuesColumn = ({ title, data, column, setColumns }) => {
-    // console.log(column.id);
-
+const IssuesColumn = ({ title, data, column }) => {
     const {
-        info,
-        status: { loading, error, clearError },
+        status: { loading, error },
     } = useIssuesContext();
 
     const errorMessage = error && <h1>Something went wrong!</h1>;
@@ -24,7 +21,6 @@ const IssuesColumn = ({ title, data, column, setColumns }) => {
         <div className="issues-column">
             <h4 className="title">{title}</h4>
 
-            {/* {!error && !loading && ( */}
             <Droppable droppableId={`${column.id}`}>
                 {(droppableProvided, droppableSnapshot) => (
                     <div
@@ -82,7 +78,6 @@ const IssuesColumn = ({ title, data, column, setColumns }) => {
                     </div>
                 )}
             </Droppable>
-            {/* )} */}
         </div>
     );
 };
