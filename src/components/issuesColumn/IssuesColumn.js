@@ -14,7 +14,6 @@ const IssuesColumn = ({ title, data, column }) => {
         status: { loading, error },
     } = useIssuesContext();
 
-    const errorMessage = error && <h1>Something went wrong!</h1>;
     const loadingMessage = loading && <h1>Loading...</h1>;
 
     return (
@@ -28,7 +27,6 @@ const IssuesColumn = ({ title, data, column }) => {
                         ref={droppableProvided.innerRef}
                         {...droppableProvided.droppableProps}
                     >
-                        {errorMessage}
                         {loadingMessage}
 
                         {!error &&

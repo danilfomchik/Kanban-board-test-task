@@ -14,7 +14,11 @@ import IssuesColumn from "../issuesColumn/IssuesColumn";
 import "./board.scss";
 
 const Board = () => {
-    const { columns, setColumns } = useIssuesContext();
+    const {
+        columns,
+        setColumns,
+        status: { error },
+    } = useIssuesContext();
 
     const onDragEnd = (result) => {
         const { destination, source } = result;
@@ -73,9 +77,14 @@ const Board = () => {
         );
     };
 
+    const errorMessage = error && (
+        <h4 style={{ color: "red", padding: "0px" }}>Incorrect URL!</h4>
+    );
+
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             <Row className="board">
+                {errorMessage}
                 {columns.map((column) => {
                     return (
                         <Col key={column.id}>
