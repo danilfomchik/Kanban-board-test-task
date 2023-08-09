@@ -1,20 +1,18 @@
-import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Card } from "react-bootstrap";
 
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
-import { getOpenDate } from "../../helpers/helpers";
-import { useIssuesContext } from "../../context/IssuesProvider";
-import { useBoardService } from "../../services/useBoardService";
-
 import "./issue-column.scss";
 
-const IssuesColumn = ({ title, data, column }) => {
-    const {
-        status: { loading, error },
-    } = useIssuesContext();
+const IssuesColumn = ({ title, issues, column }) => {
+    const issuesLoadingStatus = useSelector(
+        (state) => state.issues.issuesLoadingStatus
+    );
 
-    const loadingMessage = loading && <h1>Loading...</h1>;
+    const loadingMessage = issuesLoadingStatus === "loading" && (
+        <h1>Loading...</h1>
+    );
 
     return (
         <div className="issues-column">
@@ -29,9 +27,8 @@ const IssuesColumn = ({ title, data, column }) => {
                     >
                         {loadingMessage}
 
-                        {!error &&
-                            !loading &&
-                            data.map((issue, index) => (
+                        {issuesLoadingStatus === "idle" &&
+                            issues.map((issue, index) => (
                                 <Draggable
                                     key={issue.id}
                                     draggableId={`${issue.id}`}
@@ -51,9 +48,7 @@ const IssuesColumn = ({ title, data, column }) => {
                                                     </Card.Title>
                                                     <Card.Text>
                                                         #{issue.number}
-                                                        {getOpenDate(
-                                                            issue.created_at
-                                                        )}
+                                                        {issue.created_at}
                                                     </Card.Text>
                                                     <Card.Text className="mb-2">
                                                         <a
