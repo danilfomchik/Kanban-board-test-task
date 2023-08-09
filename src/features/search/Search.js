@@ -36,8 +36,6 @@ const Search = ({ defaultColumns }) => {
 
         dispatch(fetchIssues(query));
         dispatch(fetchRepoInfo(query));
-
-        // prevQuery.current = query;
     };
 
     return (
